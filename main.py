@@ -1,7 +1,14 @@
+from errors import InvalidRangeError
+
 def get_valid_input(prompt):
     while True:
         try:
-            return int(input(prompt))
+            user_input = int(input(prompt))
+            if 'lower_limit' in globals() and lower_limit >= user_input:
+                raise InvalidRangeError
+            return user_input
+        except InvalidRangeError:
+            print("Upper limit must be higher than the lower limit.")
         except:
             print("Please, insert an integer.")
 
