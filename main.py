@@ -1,4 +1,5 @@
 import random
+import math
 from errors import InvalidRangeError, OutOfRangeError
 
 def get_valid_input(prompt):
@@ -17,16 +18,16 @@ def get_valid_input(prompt):
         except:
             print("Please, insert an integer.")
 
-
 print("Please select a range.")
 lower_limit = get_valid_input("Lower limit: ")
 upper_limit = get_valid_input("Upper limit: ")
 
 result = random.randint(lower_limit, upper_limit)
 number_of_guesses = 0
+maximum_number_of_guesses = math.log2(upper_limit - lower_limit + 1)
 found = False
 
-while not found:
+while not found and number_of_guesses < maximum_number_of_guesses:
     number_of_guesses += 1
     selected_number = get_valid_input("Guess a number: ") 
     if selected_number == result:
@@ -36,6 +37,11 @@ while not found:
     else:
         print("Try again! You guessed too high.")
 
-print(f'''You've found the number.
-      
-      You needed {number_of_guesses} guess{"es" if number_of_guesses > 1 else ""}.''')
+if found:
+    print(f'''You've found the number.
+        
+You needed {number_of_guesses} guess{"es" if number_of_guesses > 1 else ""}.''')
+else:
+    print(f'''Unfortunately, you haven't found the number
+          
+It was {result}.''')
